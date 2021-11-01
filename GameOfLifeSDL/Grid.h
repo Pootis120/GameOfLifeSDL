@@ -14,14 +14,15 @@ private:
 	const Uint8 deadr = 0;
 	const Uint8 deadg = 0xFF;
 	const Uint8 deadb = 0xFF;
-public:
-	//might change to heap arrays
-	std::vector<bool> m_aliveTiles;
-	std::vector<SDL_Rect> m_grid;
 
 	const Uint8 aliver = 0xFF;
 	const Uint8 aliveg = 0xFF;
 	const Uint8 aliveb = 0xFF;
+public:
+	//might change to heap arrays
+	//std::vector<bool> m_aliveTiles;
+	std::vector<std::vector<bool>> m_aliveTiles;
+	std::vector<SDL_Rect> m_grid;
 
 	Uint16 width = 0;
 	Uint16 height = 0;
@@ -36,4 +37,5 @@ public:
 
 	void DrawGrid(SDL_Renderer* rend);
 	void ProccessClick(int in_x, int in_y);
+	void RunGame();
 };

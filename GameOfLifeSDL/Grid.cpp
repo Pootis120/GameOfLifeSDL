@@ -3,12 +3,12 @@
 Grid::Grid(Uint16 w, Uint16 h, Uint16 numT_w, Uint16 numT_h, Uint16 btwn_tile)
 	: width(w), height(h), numTiles_w(numT_w), numTiles_h(numT_h), btwnTile(btwn_tile)
 {
-	Uint16 num_tiles = numT_h * numT_w;
-	m_aliveTiles.reserve(num_tiles);
-	m_aliveTiles.resize(num_tiles);
-
-	m_grid.reserve(num_tiles);
-	m_grid.resize(num_tiles);
+	m_aliveTiles.resize(numT_w);
+	for (int i = 0; i < m_aliveTiles.size(); i++) 
+	{
+		m_aliveTiles[i].resize(numT_h);
+	}
+	m_grid.resize(numT_w * numT_h);
 
 	tileWidth = (w / numT_w) - btwn_tile;
 	tileHeight = (h / numT_h) - btwn_tile;
@@ -27,19 +27,22 @@ Grid::~Grid() {}
 
 void Grid::DrawGrid(SDL_Renderer* rend) 
 {
-	for (int i = 0; i < m_grid.size(); i++)
+	for (int i = 0; i < m_aliveTiles.size(); i++)
 	{
-		switch(m_aliveTiles[i]) 
+		for (int s = 0; s < m_aliveTiles.size(); s++) 
 		{
-		case true:
-			SDL_SetRenderDrawColor(rend, aliver, aliveg, aliveb, 0xFF);
-			break;
-		//false
-		default:
-			SDL_SetRenderDrawColor(rend, deadr, deadg, deadb, 0xFF);
-			break;
+			switch (m_aliveTiles[i][s])
+			{
+			case true:
+				SDL_SetRenderDrawColor(rend, aliver, aliveg, aliveb, 0xFF);
+				break;
+				//false
+			default:
+				SDL_SetRenderDrawColor(rend, deadr, deadg, deadb, 0xFF);
+				break;
+			}
+			SDL_RenderFillRect(rend, &(m_grid[(i * numTiles_w) + s]));
 		}
-		SDL_RenderFillRect(rend, &(m_grid[i]));
 	}
 }
 
@@ -69,6 +72,14 @@ void Grid::ProccessClick(int in_x, int in_y)
 	int index = (numTileY_1 * numTiles_w) + numTileX_1;
 
 	//change state of tile after mouse press
-	m_aliveTiles[index] = !m_aliveTiles[index];
+	m_aliveTiles[numTileY_1][numTileX_1] = !m_aliveTiles[numTileY_1][numTileX_1];
 	m_grid[index];
+}
+
+void Grid::RunGame() 
+{
+	for (int i = 0; i < m_aliveTiles.size(); i++) 
+	{
+
+	}
 }

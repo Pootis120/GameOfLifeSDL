@@ -24,6 +24,7 @@ int main(int argc, char* args[])
 
 	Grid grid(win_width, win_height, 5, 5, 10);
 	bool quit = false;
+	bool game_running = false;
 	SDL_Event e;
 	int mouse_x, mouse_y;
 	while (!quit) 
@@ -36,10 +37,15 @@ int main(int argc, char* args[])
 				quit = true;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (e.button.button == SDL_BUTTON_LEFT) 
+				if (e.button.button == SDL_BUTTON_LEFT && !game_running) 
 				{
 					SDL_GetMouseState(&mouse_x, &mouse_y);
 					grid.ProccessClick(mouse_x, mouse_y);
+				}
+				else if (e.button.button == SDL_BUTTON_RIGHT) 
+				{
+					game_running = !game_running;
+					grid.RunGame();
 				}
 				break;
 			default:
