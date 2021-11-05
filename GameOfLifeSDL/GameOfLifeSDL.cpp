@@ -27,8 +27,11 @@ int main(int argc, char* args[])
 	bool game_running = false;
 	SDL_Event e;
 	int mouse_x, mouse_y;
+	Uint32 frameStart;
+	Uint16 frameTime;
 	while (!quit) 
 	{
+		frameStart = SDL_GetTicks();
 		while (SDL_PollEvent(&e) != 0) 
 		{
 			switch(e.type) 
@@ -59,6 +62,9 @@ int main(int argc, char* args[])
 		grid.DrawGrid(rend);
 
 		SDL_RenderPresent(rend);
+
+		frameTime = SDL_GetTicks() - frameStart;
+		SDL_Delay(frameTime);
 	}
 
 	SDL_DestroyWindow(win);

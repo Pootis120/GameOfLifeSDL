@@ -47,7 +47,6 @@ void Grid::DrawGrid(SDL_Renderer* rend)
 }
 
 //sigma function, I love it
-//checks which tile was clicked
 void Grid::ProccessClick(int in_x, int in_y)
 {
 	//get index of blob of tile with empty space
@@ -119,4 +118,9 @@ void Grid::RunGame()
 			}
 		}
 	}
+}
+
+void Grid::ChangeGrid() 
+{
+
 }
