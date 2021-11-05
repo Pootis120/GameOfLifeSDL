@@ -20,7 +20,6 @@ private:
 	const Uint8 aliveb = 0xFF;
 public:
 	//might change to heap arrays
-	//std::vector<bool> m_aliveTiles;
 	std::vector<std::vector<bool>> m_aliveTiles;
 	std::vector<SDL_Rect> m_grid;
 
@@ -37,5 +36,6 @@ public:
 
 	void DrawGrid(SDL_Renderer* rend);
 	void ProccessClick(int in_x, int in_y);
+	int CountNeighbours(int x, int y);
 	void RunGame();
 };

@@ -29,7 +29,7 @@ void Grid::DrawGrid(SDL_Renderer* rend)
 {
 	for (int i = 0; i < m_aliveTiles.size(); i++)
 	{
-		for (int s = 0; s < m_aliveTiles.size(); s++) 
+		for (int s = 0; s < m_aliveTiles[i].size(); s++) 
 		{
 			switch (m_aliveTiles[i][s])
 			{
@@ -47,6 +47,7 @@ void Grid::DrawGrid(SDL_Renderer* rend)
 }
 
 //sigma function, I love it
+//checks which tile was clicked
 void Grid::ProccessClick(int in_x, int in_y)
 {
 	//get index of blob of tile with empty space
@@ -73,13 +74,49 @@ void Grid::ProccessClick(int in_x, int in_y)
 
 	//change state of tile after mouse press
 	m_aliveTiles[numTileY_1][numTileX_1] = !m_aliveTiles[numTileY_1][numTileX_1];
-	m_grid[index];
+}
+
+int Grid::CountNeighbours(int x, int y) 
+{
+	int num_neighb = 0;
+	for (int j = -1; j <= 1; j++)
+	{
+		for (int k = -1; k <= 1; k++)
+		{
+			if (y + j < 0 || y + j > numTiles_w - 1) 
+			{
+				continue;
+			}
+			if (x + k < 0 || x + k > numTiles_h - 1) 
+			{
+				continue;
+			}
+			num_neighb += m_aliveTiles[y + j][x + k];
+		}
+	}
+	num_neighb -= m_aliveTiles[y][x];
+	return num_neighb;
 }
 
 void Grid::RunGame() 
 {
+	int count = 0;
+	bool shouldBeDead = false;
+	//this isn't efficient but it doesn't affect performance that much
 	for (int i = 0; i < m_aliveTiles.size(); i++) 
 	{
-
+		for (int s = 0; s < m_aliveTiles[i].size(); s++) 
+		{
+			count = CountNeighbours(s, i);
+			shouldBeDead = count < 2 || count > 5;
+			if (m_aliveTiles[i][s] && shouldBeDead) 
+			{
+				m_aliveTiles[i][s] = false;
+			}
+			else if (!m_aliveTiles[i][s] && !shouldBeDead) 
+			{
+				m_aliveTiles[i][s] = true;
+			}
+		}
 	}
 }

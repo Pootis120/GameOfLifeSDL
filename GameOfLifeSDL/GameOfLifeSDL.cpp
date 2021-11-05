@@ -45,6 +45,7 @@ int main(int argc, char* args[])
 				else if (e.button.button == SDL_BUTTON_RIGHT) 
 				{
 					game_running = !game_running;
+					std::cout << grid.CountNeighbours(1, 1) << std::endl;
 					grid.RunGame();
 				}
 				break;
